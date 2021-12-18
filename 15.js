@@ -237,6 +237,6 @@ for (let j = 0; j < cave.length * 5; j++) {
     }
 }
 
-const newGoal = [499, 499];
-djikstra(start, newGoal);
-console.log(distance[newGoal]);
+// const newGoal = [499, 499];
+// djikstra(start, newGoal);
+// console.log(distance[newGoal]);
