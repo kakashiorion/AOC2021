@@ -189,7 +189,7 @@ const start = [0, 0];
 // console.log(distance[goal]);
 
 
-//Part 2
+//Part 2 - Incomplete
 
 //Create bigger cave map
 for (let j = 0; j < cave.length; j++) {
