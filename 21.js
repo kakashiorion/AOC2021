@@ -4,7 +4,6 @@ const input = [
 
 const p1StartPos = parseInt(input[0].split(": ")[1]);
 const p2StartPos = parseInt(input[1].split(": ")[1]);
-// console.log({ p1StartPos, p2StartPos })
 
 function Player(name, initialPos) {
     this.name = name;
@@ -64,84 +63,124 @@ let answer = currentPlayer.getScore() * die.getNumberRolls();
 console.log(answer);
 
 
-//Part 2 - Incomplete
+//Part 2 
+let wins = [0, 0];
+playRound(wins, 1, 0, 8, 0, 10, 1);
+console.log({ wins });
 
-const dieOccurences = {
-    3: 1, 4: 3, 5: 6, 6: 7, 7: 6, 8: 3, 9: 1
+function calcPosition(origValue, increment) {
+    if (origValue + increment > 10) {
+        return origValue + increment - 10;
+    }
+    else {
+        return origValue + increment;
+    }
 }
 
-let player1Positions = {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 1,
-    9: 0,
-    10: 0,
-}
+function playRound(winsArray, currentPlayer, p1score, p1position, p2score, p2position, factor) {
 
-let player2Positions = {
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-    9: 0,
-    10: 1,
-}
-
-let p1Wins = 0;
-let p2Wins = 0;
-playRound(1, 0, 8, 0, 10, 1, 0, 0);
-playRound(1, 0, 8, 0, 10, 2, 0, 0);
-playRound(1, 0, 8, 0, 10, 3, 0, 0);
-console.log({ p1Wins, p2Wins });
-
-function playRound(currentPlayer, p1score, p1position, p2score, p2position, dieValue, numRolls, dieTotal) {
-
-    numRolls += 1;
-    dieTotal += dieValue;
-    if (numRolls < 3) {
-        playRound(currentPlayer, p1score, p1position, p2score, p2position, 1, numRolls, dieTotal);
-        playRound(currentPlayer, p1score, p1position, p2score, p2position, 2, numRolls, dieTotal);
-        playRound(currentPlayer, p1score, p1position, p2score, p2position, 3, numRolls, dieTotal);
-    } else {
-        if (currentPlayer == 1) {
-            p1position += dieTotal;
-            if (p1position > 10) {
-                p1position -= 10;
-            }
-            p1score += p1position;
-            if (p1score < 21) {
-                currentPlayer = 2;
-                playRound(currentPlayer, p1score, p1position, p2score, p2position, 1, 0, 0);
-                playRound(currentPlayer, p1score, p1position, p2score, p2position, 2, 0, 0);
-                playRound(currentPlayer, p1score, p1position, p2score, p2position, 3, 0, 0);
-            } else {
-                p1Wins += 1;
-                console.log({ p1Wins, p2Wins });
-            }
+    if (currentPlayer == 1) {
+        let pos1 = calcPosition(p1position, 3);
+        let pos2 = calcPosition(p1position, 4);
+        let pos3 = calcPosition(p1position, 5);
+        let pos4 = calcPosition(p1position, 6);
+        let pos5 = calcPosition(p1position, 7);
+        let pos6 = calcPosition(p1position, 8);
+        let pos7 = calcPosition(p1position, 9);
+        currentPlayer = 2;
+        let score1 = p1score + pos1;
+        if (score1 > 20) {
+            winsArray[0] += 1 * factor;
         } else {
-            p2position += dieTotal;
-            if (p2position > 10) {
-                p2position -= 10;
-            }
-            p2score += p2position;
-            if (p2score < 21) {
-                currentPlayer = 1;
-                playRound(currentPlayer, p1score, p1position, p2score, p2position, 1, 0, 0);
-                playRound(currentPlayer, p1score, p1position, p2score, p2position, 2, 0, 0);
-                playRound(currentPlayer, p1score, p1position, p2score, p2position, 3, 0, 0);
-            } else {
-                p2Wins += 1;
-                console.log({ p1Wins, p2Wins });
-            }
+            playRound(winsArray, currentPlayer, score1, pos1, p2score, p2position, factor * 1);
+        }
+        let score2 = p1score + pos2;
+        if (score2 > 20) {
+            winsArray[0] += 3 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, score2, pos2, p2score, p2position, factor * 3);
+        }
+        let score3 = p1score + pos3;
+        if (score3 > 20) {
+            winsArray[0] += 6 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, score3, pos3, p2score, p2position, factor * 6);
+        }
+        let score4 = p1score + pos4;
+        if (score4 > 20) {
+            winsArray[0] += 7 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, score4, pos4, p2score, p2position, factor * 7);
+        }
+        let score5 = p1score + pos5;
+        if (score5 > 20) {
+            winsArray[0] += 6 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, score5, pos5, p2score, p2position, factor * 6);
+        }
+        let score6 = p1score + pos6;
+        if (score6 > 20) {
+            winsArray[0] += 3 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, score6, pos6, p2score, p2position, factor * 3);
+        }
+        let score7 = p1score + pos7;
+        if (score7 > 20) {
+            winsArray[0] += 1 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, score7, pos7, p2score, p2position, factor * 1);
+        }
+    } else {
+        let pos1 = calcPosition(p2position, 3);
+        let pos2 = calcPosition(p2position, 4);
+        let pos3 = calcPosition(p2position, 5);
+        let pos4 = calcPosition(p2position, 6);
+        let pos5 = calcPosition(p2position, 7);
+        let pos6 = calcPosition(p2position, 8);
+        let pos7 = calcPosition(p2position, 9);
+        currentPlayer = 1;
+        let score1 = p2score + pos1;
+        if (score1 > 20) {
+            winsArray[1] += 1 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, p1score, p1position, score1, pos1, factor * 1);
+        }
+        let score2 = p2score + pos2;
+        if (score2 > 20) {
+            winsArray[1] += 3 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, p1score, p1position, score2, pos2, factor * 3);
+        }
+        let score3 = p2score + pos3;
+        if (score3 > 20) {
+            winsArray[1] += 6 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, p1score, p1position, score3, pos3, factor * 6);
+        }
+        let score4 = p2score + pos4;
+        if (score4 > 20) {
+            winsArray[1] += 7 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, p1score, p1position, score4, pos4, factor * 7);
+        }
+        let score5 = p2score + pos5;
+        if (score5 > 20) {
+            winsArray[1] += 6 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, p1score, p1position, score5, pos5, factor * 6);
+        }
+        let score6 = p2score + pos6;
+        if (score6 > 20) {
+            winsArray[1] += 3 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, p1score, p1position, score6, pos6, factor * 3);
+        }
+        let score7 = p2score + pos7;
+        if (score7 > 20) {
+            winsArray[1] += 1 * factor;
+        } else {
+            playRound(winsArray, currentPlayer, p1score, p1position, score7, pos7, factor * 1);
         }
     }
 }
+

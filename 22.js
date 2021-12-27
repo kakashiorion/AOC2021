@@ -1,4 +1,4 @@
-const input = [
+let input = [
     'on x=-39..5,y=-35..13,z=-14..36',
     'on x=-39..12,y=-43..6,z=-4..42',
     'on x=-18..35,y=-24..21,z=-12..34',
@@ -420,57 +420,11 @@ const input = [
     'off x=-34457..-12316,y=12732..26740,z=-89885..-59140',
     'on x=21661..44248,y=-62275..-52884,z=-64237..-35005'];
 
+
 //Part 1
-// let instructions1 = {};
-// for (let i = 0; i < 20; i++) {
-//     let item = input[i];
-//     let command = item.split(' ')[0];
-//     let coords = item.split(' ')[1];
-//     let xCoords = coords.split(',')[0].substring(2,);
-//     let x1 = xCoords.split('..')[0];
-//     let x2 = xCoords.split('..')[1];
-//     let yCoords = coords.split(',')[1].substring(2,);
-//     let y1 = yCoords.split('..')[0];
-//     let y2 = yCoords.split('..')[1];
-//     let zCoords = coords.split(',')[2].substring(2,);
-//     let z1 = zCoords.split('..')[0];
-//     let z2 = zCoords.split('..')[1];
-//     instructions1[[[x1, x2], [y1, y2], [z1, z2]]] = command == 'on' ? 1 : 0;
-// }
-
-// let reactor1 = {};
-// for (let i = -50; i < 50; i++) {
-//     for (let j = -50; j < 50; j++) {
-//         for (let k = -50; k < 50; k++) {
-//             reactor1[[i, j, k]] = 0;
-//         }
-//     }
-// }
-// let reactor2 = Object.assign({}, reactor1);
-
-// for (item in instructions1) {
-//     let x1 = parseInt(item.split(',')[0]);
-//     let x2 = parseInt(item.split(',')[1]);
-//     let y1 = parseInt(item.split(',')[2]);
-//     let y2 = parseInt(item.split(',')[3]);
-//     let z1 = parseInt(item.split(',')[4]);
-//     let z2 = parseInt(item.split(',')[5]);
-//     let command = instructions1[item];
-//     for (let i = x1; i <= x2; i++) {
-//         for (let j = y1; j <= y2; j++) {
-//             for (let k = z1; k <= z2; k++) {
-//                 reactor1[[i, j, k]] = command;
-//             }
-//         }
-//     }
-// }
-// console.log(Object.values(reactor1).filter((val) => val == 1).length);
-
-
-
-//Part 2 - Incomplete
-let instructions2 = {};
-for (item of input) {
+let instructions1 = {};
+for (let i = 0; i < 20; i++) {
+    let item = input[i];
     let command = item.split(' ')[0];
     let coords = item.split(' ')[1];
     let xCoords = coords.split(',')[0].substring(2,);
@@ -482,27 +436,109 @@ for (item of input) {
     let zCoords = coords.split(',')[2].substring(2,);
     let z1 = zCoords.split('..')[0];
     let z2 = zCoords.split('..')[1];
-    instructions2[[[x1, x2], [y1, y2], [z1, z2]]] = command == 'on' ? 1 : 0;
+    instructions1[[[x1, x2], [y1, y2], [z1, z2]]] = command == 'on' ? 1 : 0;
 }
 
-let reactor2 = {};
-let j = 1;
-for (item in instructions2) {
-    console.log('computing instruction ' + j);
+let reactor1 = {};
+for (let i = -50; i < 50; i++) {
+    for (let j = -50; j < 50; j++) {
+        for (let k = -50; k < 50; k++) {
+            reactor1[[i, j, k]] = 0;
+        }
+    }
+}
+let reactor2 = Object.assign({}, reactor1);
+
+for (item in instructions1) {
     let x1 = parseInt(item.split(',')[0]);
     let x2 = parseInt(item.split(',')[1]);
     let y1 = parseInt(item.split(',')[2]);
     let y2 = parseInt(item.split(',')[3]);
     let z1 = parseInt(item.split(',')[4]);
     let z2 = parseInt(item.split(',')[5]);
-    let command = instructions2[item];
+    let command = instructions1[item];
     for (let i = x1; i <= x2; i++) {
         for (let j = y1; j <= y2; j++) {
             for (let k = z1; k <= z2; k++) {
-                reactor2[[i, j, k]] = command;
+                reactor1[[i, j, k]] = command;
             }
         }
     }
-    j += 1;
 }
-console.log(Object.values(reactor2).filter((val) => val == 1).length);
+console.log(Object.values(reactor1).filter((val) => val == 1).length);
+
+
+
+//Part 2 
+
+let instructions2 = [];
+for (let i = 0; i < input.length; i++) {
+    let item = input[i];
+    let command = item.split(' ')[0];
+    let commandValue = command == 'on' ? 1 : 0;
+    let coords = item.split(' ')[1];
+    let xCoords = coords.split(',')[0].substring(2,);
+    let x1 = xCoords.split('..')[0];
+    let x2 = xCoords.split('..')[1];
+    let yCoords = coords.split(',')[1].substring(2,);
+    let y1 = yCoords.split('..')[0];
+    let y2 = yCoords.split('..')[1];
+    let zCoords = coords.split(',')[2].substring(2,);
+    let z1 = zCoords.split('..')[0];
+    let z2 = zCoords.split('..')[1];
+    instructions2.push([commandValue, x1, x2, y1, y2, z1, z2]);
+}
+
+let cubes = [];
+for (item of instructions2) {
+    let createdCubes = [];
+    for (let k = 0; k < cubes.length; k++) {
+        let newIntersetincCube = findIntersections(item, cubes[k]);
+        if (newIntersetincCube != null) {
+            createdCubes.push(newIntersetincCube);
+        }
+    }
+    cubes.push(...createdCubes);
+    if (item[0] == 1) {
+        cubes.push(item);
+    }
+}
+let totalVolume = 0;
+for (item of cubes) {
+    if (item[0] == 1) {
+        totalVolume += (item[2] - item[1] + 1) * (item[4] - item[3] + 1) * (item[6] - item[5] + 1);
+    } else if (item[0] == 0) {
+        totalVolume -= (item[2] - item[1] + 1) * (item[4] - item[3] + 1) * (item[6] - item[5] + 1);
+    }
+}
+console.log(totalVolume);
+
+function findIntersections(newCube, oldCube) {
+
+    let newX1 = newCube[1];
+    let newX2 = newCube[2];
+    let newY1 = newCube[3];
+    let newY2 = newCube[4];
+    let newZ1 = newCube[5];
+    let newZ2 = newCube[6];
+
+    let oldValue = oldCube[0];
+    let oldX1 = oldCube[1];
+    let oldX2 = oldCube[2];
+    let oldY1 = oldCube[3];
+    let oldY2 = oldCube[4];
+    let oldZ1 = oldCube[5];
+    let oldZ2 = oldCube[6];
+
+    if (Math.max(oldX1, newX1) <= Math.min(oldX2, newX2) &&
+        Math.max(oldY1, newY1) <= Math.min(oldY2, newY2) &&
+        Math.max(oldZ1, newZ1) <= Math.min(oldZ2, newZ2)) {
+        let createdCube = [oldValue == 1 ? 0 : 1,
+        Math.max(oldX1, newX1), Math.min(oldX2, newX2),
+        Math.max(oldY1, newY1), Math.min(oldY2, newY2),
+        Math.max(oldZ1, newZ1), Math.min(oldZ2, newZ2)];
+        return createdCube;
+    } else {
+        return null;
+    }
+}

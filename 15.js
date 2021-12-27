@@ -179,64 +179,129 @@ function djikstra(source, target) {
         currentCave = findSmallestDistanceCave(unvisited);
         console.log('now visiting : ' + currentCave + ' which has a distance ' + distance[currentCave]);
     }
-
 }
 
 
 const start = [0, 0];
-// const goal = [cave[0].length - 1, cave.length - 1];
-// djikstra(start, goal);
-// console.log(distance[goal]);
+const goal = [99, 99];
+Astar(start, goal);
+console.log(distance[goal]);
 
-
-//Part 2 - Incomplete
+//Part 2
+function calcNewRisk(origValue, increment) {
+    if (origValue + increment > 9) {
+        return origValue + increment - 9;
+    }
+    else {
+        return origValue + increment;
+    }
+}
 
 //Create bigger cave map
 for (let j = 0; j < cave.length; j++) {
     for (let i = 0; i < cave[j].length; i++) {
-        caveRisk[[i, j + 100]] = (caveRisk[[i, j]] + 1) % 10;
-        caveRisk[[i + 100, j]] = (caveRisk[[i, j]] + 1) % 10;
+        caveRisk[[i, j + 100]] = calcNewRisk(caveRisk[[i, j]], 1);
+        caveRisk[[i + 100, j]] = calcNewRisk(caveRisk[[i, j]], 1);
 
-        caveRisk[[i, j + 200]] = (caveRisk[[i, j]] + 2) % 10;
-        caveRisk[[i + 200, j]] = (caveRisk[[i, j]] + 2) % 10;
-        caveRisk[[i + 100, j + 100]] = (caveRisk[[i, j]] + 2) % 10;
+        caveRisk[[i, j + 200]] = calcNewRisk(caveRisk[[i, j]], 2);
+        caveRisk[[i + 200, j]] = calcNewRisk(caveRisk[[i, j]], 2);
+        caveRisk[[i + 100, j + 100]] = calcNewRisk(caveRisk[[i, j]], 2);
 
-        caveRisk[[i, j + 300]] = (caveRisk[[i, j]] + 3) % 10;
-        caveRisk[[i + 300, j]] = (caveRisk[[i, j]] + 3) % 10;
-        caveRisk[[i + 200, j + 100]] = (caveRisk[[i, j]] + 3) % 10;
-        caveRisk[[i + 100, j + 200]] = (caveRisk[[i, j]] + 3) % 10;
+        caveRisk[[i, j + 300]] = calcNewRisk(caveRisk[[i, j]], 3);
+        caveRisk[[i + 300, j]] = calcNewRisk(caveRisk[[i, j]], 3);
+        caveRisk[[i + 200, j + 100]] = calcNewRisk(caveRisk[[i, j]], 3);
+        caveRisk[[i + 100, j + 200]] = calcNewRisk(caveRisk[[i, j]], 3);
 
-        caveRisk[[i, j + 400]] = (caveRisk[[i, j]] + 4) % 10;
-        caveRisk[[i + 400, j]] = (caveRisk[[i, j]] + 4) % 10;
-        caveRisk[[i + 300, j + 100]] = (caveRisk[[i, j]] + 4) % 10;
-        caveRisk[[i + 200, j + 200]] = (caveRisk[[i, j]] + 4) % 10;
-        caveRisk[[i + 100, j + 300]] = (caveRisk[[i, j]] + 4) % 10;
+        caveRisk[[i, j + 400]] = calcNewRisk(caveRisk[[i, j]], 4);
+        caveRisk[[i + 400, j]] = calcNewRisk(caveRisk[[i, j]], 4);
+        caveRisk[[i + 300, j + 100]] = calcNewRisk(caveRisk[[i, j]], 4);
+        caveRisk[[i + 200, j + 200]] = calcNewRisk(caveRisk[[i, j]], 4);
+        caveRisk[[i + 100, j + 300]] = calcNewRisk(caveRisk[[i, j]], 4);
 
-        caveRisk[[i + 100, j + 400]] = (caveRisk[[i, j]] + 5) % 10;
-        caveRisk[[i + 200, j + 300]] = (caveRisk[[i, j]] + 5) % 10;
-        caveRisk[[i + 300, j + 200]] = (caveRisk[[i, j]] + 5) % 10;
-        caveRisk[[i + 400, j + 100]] = (caveRisk[[i, j]] + 5) % 10;
+        caveRisk[[i + 100, j + 400]] = calcNewRisk(caveRisk[[i, j]], 5);
+        caveRisk[[i + 200, j + 300]] = calcNewRisk(caveRisk[[i, j]], 5);
+        caveRisk[[i + 300, j + 200]] = calcNewRisk(caveRisk[[i, j]], 5);
+        caveRisk[[i + 400, j + 100]] = calcNewRisk(caveRisk[[i, j]], 5);
 
-        caveRisk[[i + 200, j + 400]] = (caveRisk[[i, j]] + 6) % 10;
-        caveRisk[[i + 300, j + 300]] = (caveRisk[[i, j]] + 6) % 10;
-        caveRisk[[i + 400, j + 200]] = (caveRisk[[i, j]] + 6) % 10;
+        caveRisk[[i + 200, j + 400]] = calcNewRisk(caveRisk[[i, j]], 6);
+        caveRisk[[i + 300, j + 300]] = calcNewRisk(caveRisk[[i, j]], 6);
+        caveRisk[[i + 400, j + 200]] = calcNewRisk(caveRisk[[i, j]], 6);
 
-        caveRisk[[i + 300, j + 400]] = (caveRisk[[i, j]] + 7) % 10;
-        caveRisk[[i + 400, j + 300]] = (caveRisk[[i, j]] + 7) % 10;
+        caveRisk[[i + 300, j + 400]] = calcNewRisk(caveRisk[[i, j]], 7);
+        caveRisk[[i + 400, j + 300]] = calcNewRisk(caveRisk[[i, j]], 7);
 
-        caveRisk[[i + 400, j + 400]] = (caveRisk[[i, j]] + 8) % 10;
+        caveRisk[[i + 400, j + 400]] = calcNewRisk(caveRisk[[i, j]], 8);
     }
 }
 
 distance = {};
-unvisited = [];
 for (let j = 0; j < cave.length * 5; j++) {
     for (let i = 0; i < cave.length * 5; i++) {
-        distance[[i, j]] = 9999999999;
-        unvisited.push([i, j]);
+        distance[[i, j]] = 999999;
     }
 }
 
-// const newGoal = [499, 499];
-// djikstra(start, newGoal);
-// console.log(distance[newGoal]);
+
+//Try A* algo
+function Astar(source, target) {
+    distance[source] = 0;
+    let open = [source];
+    let currentNode = source;
+
+    while (open.length > 0) {
+
+        //Remove current node from open list
+        removeCave(open, currentNode);
+
+        //Find neighbors of current node
+        let x = currentNode[0];
+        let y = currentNode[1];
+
+        if (x < target[0]) {
+            let newDist1 = distance[currentNode] + caveRisk[[x + 1, y]];
+            if (x < 499 && newDist1 < distance[[x + 1, y]]) {
+                distance[[x + 1, y]] = newDist1;
+                if (!listContainsCave(open, [x + 1, y])) {
+                    open.push([x + 1, y]);
+                }
+            }
+        }
+
+        if (x > 0) {
+            let newDist1 = distance[currentNode] + caveRisk[[x - 1, y]];
+            if (x < 499 && newDist1 < distance[[x - 1, y]]) {
+                distance[[x - 1, y]] = newDist1;
+                if (!listContainsCave(open, [x - 1, y])) {
+                    open.push([x - 1, y]);
+                }
+            }
+        }
+
+        if (y < target[1]) {
+            let newDist2 = distance[currentNode] + caveRisk[[x, y + 1]];
+            if (newDist2 < distance[[x, y + 1]]) {
+                distance[[x, y + 1]] = newDist2;
+                if (!listContainsCave(open, [x, y + 1])) {
+                    open.push([x, y + 1]);
+                }
+            }
+        }
+
+        if (y > 0) {
+            let newDist2 = distance[currentNode] + caveRisk[[x, y - 1]];
+            if (newDist2 < distance[[x, y - 1]]) {
+                distance[[x, y - 1]] = newDist2;
+                if (!listContainsCave(open, [x, y - 1])) {
+                    open.push([x, y - 1]);
+                }
+            }
+        }
+
+        currentNode = findSmallestDistanceCave(open);
+        console.log('now visiting : ' + currentNode + ' which has a distance ' + distance[currentNode]);
+    }
+}
+
+const newGoal = [499, 499];
+Astar(start, newGoal);
+console.log(distance[newGoal]);
