@@ -1,4 +1,4 @@
-const input = [
+let input = [
     '--- scanner 0 ---',
     '562,-830,765',
     '477,603,962',
@@ -942,6 +942,149 @@ const input = [
     '289,-838,-567',
     '682,-518,447']
 
+
+
+input = [
+    '--- scanner 0 ---',
+    '404,-588,-901',
+    '528,-643,409',
+    '-838,591,734',
+    '390,-675,-793',
+    '-537,-823,-458',
+    '-485,-357,347',
+    '-345,-311,381',
+    '-661,-816,-575',
+    '-876,649,763',
+    '-618,-824,-621',
+    '553,345,-567',
+    '474,580,667',
+    '-447,-329,318',
+    '-584,868,-557',
+    '544,-627,-890',
+    '564,392,-477',
+    '455,729,728',
+    '-892,524,684',
+    '-689,845,-530',
+    '423,-701,434',
+    '7,-33,-71',
+    '630,319,-379',
+    '443,580,662',
+    '-789,900,-551',
+    '459,-707,401',
+
+    '--- scanner 1 ---',
+    '686,422,578',
+    '605,423,415',
+    '515,917,-361',
+    '-336,658,858',
+    '95,138,22',
+    '-476,619,847',
+    '-340,-569,-846',
+    '567,-361,727',
+    '-460,603,-452',
+    '669,-402,600',
+    '729,430,532',
+    '-500,-761,534',
+    '-322,571,750',
+    '-466,-666,-811',
+    '-429,-592,574',
+    '-355,545,-477',
+    '703,-491,-529',
+    '-328,-685,520',
+    '413,935,-424',
+    '-391,539,-444',
+    '586,-435,557',
+    '-364,-763,-893',
+    '807,-499,-711',
+    '755,-354,-619',
+    '553,889,-390',
+
+    '--- scanner 2 ---',
+    '649,640,665',
+    '682,-795,504',
+    '-784,533,-524',
+    '-644,584,-595',
+    '-588,-843,648',
+    '-30,6,44',
+    '-674,560,763',
+    '500,723,-460',
+    '609,671,-379',
+    '-555,-800,653',
+    '-675,-892,-343',
+    '697,-426,-610',
+    '578,704,681',
+    '493,664,-388',
+    '-671,-858,530',
+    '-667,343,800',
+    '571,-461,-707',
+    '-138,-166,112',
+    '-889,563,-600',
+    '646,-828,498',
+    '640,759,510',
+    '-630,509,768',
+    '-681,-892,-333',
+    '673,-379,-804',
+    '-742,-814,-386',
+    '577,-820,562',
+
+    '--- scanner 3 ---',
+    '-589,542,597',
+    '605,-692,669',
+    '-500,565,-823',
+    '-660,373,557',
+    '-458,-679,-417',
+    '-488,449,543',
+    '-626,468,-788',
+    '338,-750,-386',
+    '528,-832,-391',
+    '562,-778,733',
+    '-938,-730,414',
+    '543,643,-506',
+    '-524,371,-870',
+    '407,773,750',
+    '-104,29,83',
+    '378,-903,-323',
+    '-778,-728,485',
+    '426,699,580',
+    '-438,-605,-362',
+    '-469,-447,-387',
+    '509,732,623',
+    '647,635,-688',
+    '-868,-804,481',
+    '614,-800,639',
+    '595,780,-596',
+
+    '--- scanner 4 ---',
+    '727,592,562',
+    '-293,-554,779',
+    '441,611,-461',
+    '-714,465,-776',
+    '-743,427,-804',
+    '-660,-479,-426',
+    '832,-632,460',
+    '927,-485,-438',
+    '408,393,-506',
+    '466,436,-512',
+    '110,16,151',
+    '-258,-428,682',
+    '-393,719,612',
+    '-211,-452,876',
+    '808,-476,-593',
+    '-575,615,604',
+    '-485,667,467',
+    '-680,325,-822',
+    '-627,-443,-432',
+    '872,-547,-609',
+    '833,512,582',
+    '807,604,487',
+    '839,-516,451',
+    '891,-625,532',
+    '-652,-548,-490',
+    '30,-46,-14'];
+
+
+
+//Get scanner point list
 let scanners = {};
 let i = 0;
 for (item of input) {
@@ -949,17 +1092,15 @@ for (item of input) {
         i = parseInt(item.split(' ')[2]);
     }
     else if (item != '') {
-        let coords = item.split(',');
         if (i in scanners) {
-            scanners[i].push(coords);
+            scanners[i].push(item);
         } else {
-            scanners[i] = [coords];
+            scanners[i] = [item];
         }
     }
 }
 
 //Part 1 - Incomplete
-let commonMaster = {};
 function areOverlappingScanner(objA, objB) {
 
     let commonPoints = [];
@@ -972,97 +1113,24 @@ function areOverlappingScanner(objA, objB) {
         }
     }
     if (commonPoints.length > 65) {
-
-        for (p of commonPoints) {
-            let p1 = p[0].split(',').slice(0, 3);
-            let p2 = p[0].split(',').slice(3,);
-            let p3 = p[1].split(',').slice(0, 3);
-            let p4 = p[1].split(',').slice(3,);
-
-            if (p1 in commonMaster) {
-                commonMaster[p1] += 1;
-            } else {
-                commonMaster[p1] = 1;
-            }
-            if (p2 in commonMaster) {
-                commonMaster[p2] += 1;
-            } else {
-                commonMaster[p2] = 1;
-            }
-            if (p3 in commonMaster) {
-                commonMaster[p3] += 1;
-            } else {
-                commonMaster[p3] = 1;
-            }
-            if (p4 in commonMaster) {
-                commonMaster[p4] += 1;
-            } else {
-                commonMaster[p4] = 1;
-            }
-
-        }
-        let l = commonPoints.length;
-        // let n = Math.ceil(Math.sqrt(l * 2));
-        // let aP1 = commonPoints[0][0].split(',').slice(0, 3)
-        // let aP2 = commonPoints[0][0].split(',').slice(3,)
-        // let bP1 = commonPoints[0][1].split(',').slice(0, 3)
-        // let bP2 = commonPoints[0][1].split(',').slice(3,)
-
-        // let aP3 = commonPoints[1][0].split(',').slice(0, 3)
-        // let aP4 = commonPoints[1][0].split(',').slice(3,)
-        // let bP3 = commonPoints[1][1].split(',').slice(0, 3)
-        // let bP4 = commonPoints[1][1].split(',').slice(3,)
-
-        // if (aP1.toString() == aP3.toString()) {
-        //     let xa = aP1[0] - aP3[0];
-        //     let ya = aP1[1] - aP3[1];
-        //     let za = aP1[2] - aP3[2];
-        // } else if (aP1.toString() == aP4.toString()) {
-        //     let xa = aP1[0] - aP4[0];
-        //     let ya = aP1[1] - aP4[1];
-        //     let za = aP1[2] - aP4[2];
-        // } else if (aP2.toString() == aP3.toString()) {
-        //     let xa = aP2[0] - aP3[0];
-        //     let ya = aP2[1] - aP3[1];
-        //     let za = aP2[2] - aP3[2];
-        // } else {
-        //     let xa = aP2[0] - aP4[0];
-        //     let ya = aP2[1] - aP4[1];
-        //     let za = aP2[2] - aP4[2];
-        // }
-        // if (bP1.toString() == bP3.toString()) {
-        //     let xb = bP1[0] - bP3[0];
-        //     let yb = bP1[1] - bP3[1];
-        //     let zb = bP1[2] - bP3[2];
-        // } else if (bP1.toString() == bP4.toString()) {
-        //     let xb = bP1[0] - bP4[0];
-        //     let yb = bP1[1] - bP4[1];
-        //     let zb = bP1[2] - bP4[2];
-        // } if (bP2.toString() == bP3.toString()) {
-        //     let xb = bP2[0] - bP3[0];
-        //     let yb = bP2[1] - bP3[1];
-        //     let zb = bP2[2] - bP3[2];
-        // } else {
-        //     let xb = bP2[0] - bP4[0];
-        //     let yb = bP2[1] - bP4[1];
-        //     let zb = bP2[2] - bP4[2];
-        // }
-
-        return [true, l];
+        // console.log('found common points ' + commonPoints.length);
+        return [true, commonPoints];
+    } else {
+        return [false];
     }
-    return [false, 0];
 }
 
 function findOverlappingScannersList(scanDistList) {
     let overlappingScanners = {};
-    for (let i = 0; i < scanDistList.length - 1; i++) {
-        for (let j = i + 1; j < scanDistList.length; j++) {
-            let result = areOverlappingScanner(scanDistList[i], scanDistList[j]);
+    let scanList = Object.keys(scanDistList);
+    for (let i = 0; i < scanList.length - 1; i++) {
+        for (let j = i + 1; j < scanList.length; j++) {
+            let result = areOverlappingScanner(scanDistList[scanList[i]], scanDistList[scanList[j]]);
             if (result[0]) {
-                overlappingScanners[[i, j]] = result[1];
+                // console.log({ i, j });
+                overlappingScanners[[i, j]] = samePoints(result[1]);
             }
         }
-
     }
     return overlappingScanners;
 }
@@ -1071,31 +1139,511 @@ function getAllDistances(pointList) {
     let distances = {};
     for (let i = 0; i < pointList.length - 1; i++) {
         for (let j = i + 1; j < pointList.length; j++) {
-            distances[[pointList[i], pointList[j]]] = distance3D(pointList[i], pointList[j])
+            distances[[pointList[i], pointList[j]]] = get3Ddistance(pointList[i], pointList[j])
         }
     }
     return distances;
 }
 
-function distance3D(pointA, pointB) {
-    let x = parseInt(pointA[0]) - parseInt(pointB[0])
-    let y = parseInt(pointA[1]) - parseInt(pointB[1])
-    let z = parseInt(pointA[2]) - parseInt(pointB[2])
+function get3Ddistance(pointA, pointB) {
 
-    return (Math.sqrt(x * x + y * y + z * z)).toFixed(2);
+    let Acoords = pointA.split(',');
+    let Bcoords = pointB.split(',');
+
+    let x = parseInt(Acoords[0]) - parseInt(Bcoords[0])
+    let y = parseInt(Acoords[1]) - parseInt(Bcoords[1])
+    let z = parseInt(Acoords[2]) - parseInt(Bcoords[2])
+
+    return (Math.sqrt(x * x + y * y + z * z)).toFixed(4);
 }
 
+function samePoints(distanceList) {
+    let pointsList = {};
+    for (item of distanceList) {
+        let firstPoints = item[0].split(',');
+        let p1 = firstPoints.slice(0, 3);
+        let p2 = firstPoints.slice(3,);
 
-let scannerDistances = [];
+        let secondPoints = item[1].split(',');
+        let p3 = secondPoints.slice(0, 3);
+        let p4 = secondPoints.slice(3,);
+
+        if ([p1, p3] in pointsList) {
+            pointsList[[p1, p3]] += 1;
+        } else {
+            pointsList[[p1, p3]] = 1;
+        }
+        if ([p1, p4] in pointsList) {
+            pointsList[[p1, p4]] += 1;
+        } else {
+            pointsList[[p1, p4]] = 1;
+        }
+        if ([p2, p3] in pointsList) {
+            pointsList[[p2, p3]] += 1;
+        } else {
+            pointsList[[p2, p3]] = 1;
+        }
+        if ([p2, p4] in pointsList) {
+            pointsList[[p2, p4]] += 1;
+        } else {
+            pointsList[[p2, p4]] = 1;
+        }
+    }
+    let resultPoints = [];
+    for (p in pointsList) {
+        if (pointsList[p] >= 11) {
+            resultPoints.push(p);
+        }
+    }
+    return resultPoints;
+}
+
+function getOrientation(pA, pB) {
+
+    let s1pACoords = pA.split(',').slice(0, 3);
+    let s1pAx = parseInt(s1pACoords[0]);
+    let s1pAy = parseInt(s1pACoords[1]);
+    let s1pAz = parseInt(s1pACoords[2]);
+
+    let s2pACoords = pA.split(',').slice(3,);
+    let s2pAx = parseInt(s2pACoords[0]);
+    let s2pAy = parseInt(s2pACoords[1]);
+    let s2pAz = parseInt(s2pACoords[2]);
+
+    let s1pBCoords = pB.split(',').slice(0, 3);
+    let s1pBx = parseInt(s1pBCoords[0]);
+    let s1pBy = parseInt(s1pBCoords[1]);
+    let s1pBz = parseInt(s1pBCoords[2]);
+
+    let s2pBCoords = pB.split(',').slice(3,);
+    let s2pBx = parseInt(s2pBCoords[0]);
+    let s2pBy = parseInt(s2pBCoords[1]);
+    let s2pBz = parseInt(s2pBCoords[2]);
+
+
+    let s1xDiff = s1pBx - s1pAx;
+    let s1yDiff = s1pBy - s1pAy;
+    let s1zDiff = s1pBz - s1pAz;
+
+    let s2xDiff = s2pBx - s2pAx;
+    let s2yDiff = s2pBy - s2pAy;
+    let s2zDiff = s2pBz - s2pAz;
+
+    let orientationB = {};
+    if (s1xDiff == s2xDiff) {
+        orientationB['x'] = [0, 1, s1pAx - s2pAx];
+    } else if (s1xDiff == -s2xDiff) {
+        orientationB['x'] = [0, -1, s1pAx + s2pAx];
+    } else if (s1xDiff == s2yDiff) {
+        orientationB['x'] = [1, 1, s1pAx - s2pAy];
+    } else if (s1xDiff == -s2yDiff) {
+        orientationB['x'] = [1, -1, s1pAx + s2pAy];
+    } else if (s1xDiff == s2zDiff) {
+        orientationB['x'] = [2, 1, s1pAx - s2pAz];
+    } else if (s1xDiff == -s2zDiff) {
+        orientationB['x'] = [2, -1, s1pAx + s2pAz];
+    }
+
+    if (s1yDiff == s2xDiff) {
+        orientationB['y'] = [0, 1, s1pAy - s2pAx];
+    } else if (s1yDiff == -s2xDiff) {
+        orientationB['y'] = [0, -1, s1pAy + s2pAx];
+    } else if (s1yDiff == s2yDiff) {
+        orientationB['y'] = [1, 1, s1pAy - s2pAy];
+    } else if (s1yDiff == -s2yDiff) {
+        orientationB['y'] = [1, -1, s1pAy + s2pAy];
+    } else if (s1yDiff == s2zDiff) {
+        orientationB['y'] = [2, 1, s1pAy - s2pAz];
+    } else if (s1yDiff == -s2zDiff) {
+        orientationB['y'] = [2, -1, s1pAy + s2pAz];
+    }
+
+    if (s1zDiff == s2xDiff) {
+        orientationB['z'] = [0, 1, s1pAz - s2pAx];
+    } else if (s1zDiff == -s2xDiff) {
+        orientationB['z'] = [0, -1, s1pAz + s2pAx];
+    } else if (s1zDiff == s2yDiff) {
+        orientationB['z'] = [1, 1, s1pAz - s2pAy];
+    } else if (s1zDiff == -s2yDiff) {
+        orientationB['z'] = [1, -1, s1pAz + s2pAy];
+    } else if (s1zDiff == s2zDiff) {
+        orientationB['z'] = [2, 1, s1pAz - s2pAz];
+    } else if (s1zDiff == -s2zDiff) {
+        orientationB['z'] = [2, -1, s1pAz + s2pAz];
+    }
+
+    return orientationB;
+}
+
+function transformForward(base, change) {
+    let changeX = change['x'];
+    let changeY = change['y'];
+    let changeZ = change['z'];
+
+    let baseX = base['x'];
+    let baseY = base['y'];
+    let baseZ = base['z'];
+
+    let changedOrientation = {};
+    arrayX = [];
+    arrayY = [];
+    arrayZ = [];
+
+    if (changeX[0] == 0) {
+        if (baseX[0] == 0) {
+            console.log('1');
+            arrayX.push(baseX[0], baseX[1] * changeX[1], changeX[2] * baseX[1] + baseX[2]);
+        } else if (baseX[0] == 1) {
+            console.log('2');
+            arrayY.push(baseX[0], baseY[1] * changeX[1], changeX[2] * baseY[1] + baseY[2]);
+        } else if (baseX[0] == 2) {
+            console.log('3');
+            arrayZ.push(baseX[0], baseZ[1] * changeX[1], changeX[2] * baseZ[1] + baseZ[2]);
+        }
+    } else if (changeX[0] == 1) {
+        if (baseX[0] == 0) {
+            console.log('4');
+            arrayY.push(baseX[0], baseY[1] * changeY[1], changeY[2] * baseY[1] + baseY[2]);
+        } else if (baseX[0] == 1) {
+            console.log('5');
+            arrayZ.push(baseX[0], baseZ[1] * changeY[1], changeY[2] * baseZ[1] + baseZ[2]);
+        } else if (baseX[0] == 2) {
+            console.log('6');
+            arrayX.push(baseX[0], baseX[1] * changeY[1], changeY[2] * baseX[1] + baseX[2]);
+        }
+    } else if (changeX[0] == 2) {
+        if (baseX[0] == 0) {
+            console.log('7');
+            arrayZ.push(baseX[0], baseZ[1] * changeZ[1], changeZ[2] * baseZ[1] + baseZ[2]);
+        } else if (baseX[0] == 1) {
+            console.log('8');
+            arrayX.push(baseX[0], baseX[1] * changeZ[1], changeZ[2] * baseX[1] + baseX[2]);
+        } else if (baseX[0] == 2) {
+            console.log('9');
+            arrayY.push(baseX[0], baseY[1] * changeZ[1], changeZ[2] * baseY[1] + baseY[2]);
+        }
+    }
+
+    if (changeY[0] == 0) {
+        if (baseY[0] == 0) {
+            console.log('10');
+            arrayZ.push(baseY[0], baseZ[1] * changeX[1], changeX[2] * baseZ[1] + baseZ[2]);
+        } else if (baseY[0] == 1) {
+            console.log('11');
+            arrayX.push(baseY[0], baseX[1] * changeX[1], changeX[2] * baseX[1] + baseX[2]);
+        } else if (baseY[0] == 2) {
+            console.log('12');
+            arrayY.push(baseY[0], baseY[1] * changeX[1], changeX[2] * baseY[1] + baseY[2]);
+        }
+    } else if (changeY[0] == 1) {
+        if (baseY[0] == 0) {
+            console.log('13');
+            arrayX.push(baseY[0], baseX[1] * changeY[1], changeY[2] * baseX[1] + baseX[2]);
+        } else if (baseY[0] == 1) {
+            console.log('14');
+            arrayY.push(baseY[0], baseY[1] * changeY[1], changeY[2] * baseY[1] + baseY[2]);
+        } else if (baseY[0] == 2) {
+            console.log('15');
+            arrayZ.push(baseY[0], baseZ[1] * changeY[1], changeY[2] * baseZ[1] + baseZ[2]);
+        }
+    } else if (changeY[0] == 2) {
+        if (baseY[0] == 0) {
+            console.log('16');
+            arrayY.push(baseY[0], baseY[1] * changeZ[1], changeZ[2] * baseY[1] + baseY[2]);
+        } else if (baseY[0] == 1) {
+            console.log('17');
+            arrayZ.push(baseY[0], baseZ[1] * changeZ[1], changeZ[2] * baseZ[1] + baseZ[2]);
+        } else if (baseY[0] == 2) {
+            console.log('18');
+            arrayX.push(baseY[0], baseX[1] * changeZ[1], changeZ[2] * baseX[1] + baseX[2]);
+        }
+    }
+
+    if (changeZ[0] == 0) {
+        if (baseZ[0] == 0) {
+            console.log('19');
+            arrayY.push(baseZ[0], baseY[1] * changeX[1], changeX[2] * baseY[1] + baseY[2]);
+        } else if (baseZ[0] == 1) {
+            console.log('20');
+            arrayZ.push(baseZ[0], baseZ[1] * changeX[1], changeX[2] * baseZ[1] + baseZ[2]);
+        } else if (baseZ[0] == 2) {
+            console.log('21');
+            arrayX.push(baseZ[0], baseX[1] * changeX[1], changeX[2] * baseX[1] + baseX[2]);
+        }
+    } else if (changeZ[0] == 1) {
+        if (baseZ[0] == 0) {
+            console.log('22');
+            arrayZ.push(baseZ[0], baseZ[1] * changeY[1], changeY[2] * baseZ[1] + baseZ[2]);
+        } else if (baseZ[0] == 1) {
+            console.log('23');
+            arrayX.push(baseZ[0], baseX[1] * changeY[1], changeY[2] * baseX[1] + baseX[2]);
+        } else if (baseZ[0] == 2) {
+            console.log('24');
+            arrayY.push(baseZ[0], baseY[1] * changeY[1], changeY[2] * baseY[1] + baseY[2]);
+        }
+    } else if (changeZ[0] == 2) {
+        if (baseZ[0] == 0) {
+            console.log('25');
+            arrayX.push(baseZ[0], baseX[1] * changeZ[1], changeZ[2] * baseX[1] + baseX[2]);
+        } else if (baseZ[0] == 1) {
+            console.log('26');
+            arrayY.push(baseZ[0], baseY[1] * changeZ[1], changeZ[2] * baseY[1] + baseY[2]);
+        } else if (baseZ[0] == 2) {
+            console.log('27');
+            arrayZ.push(baseZ[0], baseZ[1] * changeZ[1], changeZ[2] * baseZ[1] + baseZ[2]);
+        }
+    }
+
+    changedOrientation['x'] = arrayX;
+    changedOrientation['y'] = arrayY;
+    changedOrientation['z'] = arrayZ;
+    return changedOrientation;
+
+}
+
+function transformScannerPoints(scannerKey, scannerPointsList) {
+
+    let transformedPoints = [];
+
+    let scannerX = scannerKey['x'];
+    let scannerY = scannerKey['y'];
+    let scannerZ = scannerKey['z'];
+
+    for (p of scannerPointsList) {
+        let p0 = parseInt(p.split(',')[0]);
+        let p1 = parseInt(p.split(',')[1]);
+        let p2 = parseInt(p.split(',')[2]);
+
+        if (scannerX[0] == 0) {
+            pX = ((p0 * scannerX[1] + scannerX[2])).toString();
+        } else if (scannerX[0] == 1) {
+            pX = ((p1 * scannerX[1] + scannerX[2])).toString();
+        } else if (scannerX[0] == 2) {
+            pX = ((p2 * scannerX[1] + scannerX[2])).toString();
+        }
+
+        if (scannerY[0] == 0) {
+            pY = ((-p0 * scannerY[1] + scannerY[2])).toString();
+        } else if (scannerY[0] == 1) {
+            pY = ((p1 * scannerY[1] + scannerY[2])).toString();
+        } else if (scannerY[0] == 2) {
+            pY = ((p2 * scannerY[1] + scannerY[2])).toString();
+        }
+
+        if (scannerZ[0] == 0) {
+            pZ = ((p0 * scannerZ[1] + scannerZ[2])).toString();
+        } else if (scannerZ[0] == 1) {
+            pZ = ((-p1 * scannerZ[1] + scannerZ[2])).toString();
+        } else if (scannerZ[0] == 2) {
+            pZ = ((p2 * scannerZ[1] + scannerZ[2])).toString();
+        }
+
+        let newPoint = pX + ',' + pY + ',' + pZ;
+        transformedPoints.push(newPoint);
+    }
+    return transformedPoints;
+}
+
+//Get point distances within a scanner
+let scannerDistances = {};
 for (item in scanners) {
-    scannerDistances.push(getAllDistances(scanners[item]));
+    scannerDistances[item] = getAllDistances(scanners[item]);
 }
 
+//Get list of scanner overlaps 
 let overlapList = findOverlappingScannersList(scannerDistances);
 // console.log(overlapList);
-console.log(Object.values(commonMaster).filter(val => val >= 11).length);
+
+//Get scanners relative orientations
+// let scannerOrientations = {};
+// for (item in overlapList) {
+//     let p1 = overlapList[item][0];
+//     let p2 = overlapList[item][1];
+//     scannerOrientations[item] = getOrientation(p1, p2);
+// }
+// console.log(scannerOrientations);
+
+//Transform scanners relative to scanner 0
+// let finalOrientation = {};
+// finalOrientation[0] = { 'x': [0, 1, 0], 'y': [1, 1, 0], 'z': [2, 1, 0] };
+// let visitedList = [0];
+// let unvisitedList = Array.from({ length: Object.keys(scanners).length - 1 }, (_, i) => i + 1);
+// while (unvisitedList.length > 0) {
+//     for (x of visitedList) {
+//         for (item of unvisitedList) {
+//             if ([x, item] in scannerOrientations) {
+//                 let base = finalOrientation[x];
+//                 let toChange = scannerOrientations[[x, item]];
+//                 if (!visitedList.includes(item)) {
+//                     // console.log('now computing forward ' + item + 'with help of ' + x);
+//                     finalOrientation[item] = transformForward(base, toChange);
+//                     visitedList.push(item);
+//                     unvisitedList.splice(unvisitedList.indexOf(item), 1);
+//                 }
+//             }
+//             else if ([item, x] in scannerOrientations) {
+
+//                 let p1 = overlapList[[item, x]][0];
+//                 let p2 = overlapList[[item, x]][1];
+
+//                 // console.log({ p1, p2 });
+//                 let newp1 = p1.split(',').slice(3,).join(',') + ',' + p1.split(',').slice(0, 3).join(',');
+//                 let newp2 = p2.split(',').slice(3,).join(',') + ',' + p2.split(',').slice(0, 3).join(',');
+//                 // console.log({ newp1, newp2 });
+//                 let toChange = getOrientation(newp2, newp1);
+//                 // console.log(toChange);
+//                 let base = finalOrientation[x];
+//                 // let toChange = scannerOrientations[[item, x]];
+//                 if (!visitedList.includes(item)) {
+//                     // console.log('now computing reverse ' + item + ' with help of ' + x);
+//                     finalOrientation[item] = transformForward(base, toChange);
+//                     visitedList.push(item);
+//                     unvisitedList.splice(unvisitedList.indexOf(item), 1);
+//                 }
+//             }
+//             // console.log(visitedList);
+//             // console.log(unvisitedList);
+//         }
+//     }
+
+// }
+// console.log(finalOrientation);
+
+//Get all points relative to scanner 0
+// let finalPoints = {};
+// for (item in finalOrientation) {
+//     let tPoints = transformScannerPoints(finalOrientation[item], scanners[item]);
+//     for (p of tPoints) {
+//         if (p in finalPoints) {
+//             finalPoints[p] += 1;
+//         } else {
+//             finalPoints[p] = 1;
+//         }
+//     }
+// }
+// let finalPointsList = Object.keys(finalPoints);
+// console.log(finalPoints);
+// console.log(finalPointsList.length);
+
+let allOverlapPoints = [].concat.apply([], Object.values(overlapList));
+console.log(allOverlapPoints.length);
+let f = [];
+for (s in scanners) {
+    for (p of scanners[s]) {
+        // console.log('checking for point ' + p);
+        for (x of allOverlapPoints) {
+            let x1 = x.split(',').slice(0, 3).join(',');
+            let x2 = x.split(',').slice(3,).join(',');
+            // console.log(x1, x2);
+
+            if (p.toString() == x1.toString() && !f.includes(p)) {
+                // console.log('comparing ' + x1);
+
+                f.push(p)
+            } else if (p.toString() == x2.toString() && !f.includes(p)) {
+                // console.log('comparing ' + x2);
+
+                f.push(p)
+            }
+        }
+    }
+}
+console.log(f.length);
 
 
 
+
+
+//Testing
+// let answerList = [
+//     '-892,524,684',
+//     '-876,649,763',
+//     '-838,591,734',
+//     '-789,900,-551',
+//     '-739,-1745,668',
+//     '-706,-3180,-659',
+//     '-697,-3072,-689',
+//     '-689,845,-530',
+//     '-687,-1600,576',
+//     '-661,-816,-575',
+//     '-654,-3158,-753',
+//     '-635,-1737,486',
+//     '-631,-672,1502',
+//     '-624,-1620,1868',
+//     '-620,-3212,371',
+//     '-618,-824,-621',
+//     '-612,-1695,1788',
+//     '-601,-1648,-643',
+//     '-584,868,-557',
+//     '-537,-823,-458',
+//     '-532,-1715,1894',
+//     '-518,-1681,-600',
+//     '-499,-1607,-770',
+//     '-485,-357,347',
+//     '-470,-3283,303',
+//     '-456,-621,1527',
+//     '-447,-329,318',
+//     '-430,-3130,366',
+//     '-413,-627,1469',
+//     '-345,-311,381',
+//     '-36,-1284,1171',
+//     '-27,-1108,-65',
+//     '7,-33,-71',
+//     '12,-2351,-103',
+//     '26,-1119,1091',
+//     '346,-2985,342',
+//     '366,-3059,397',
+//     '377,-2827,367',
+//     '390,-675,-793',
+//     '396,-1931,-563',
+//     '404,-588,-901',
+//     '408,-1815,803',
+//     '423,-701,434',
+//     '432,-2009,850',
+//     '443,580,662',
+//     '455,729,728',
+//     '456,-540,1869',
+//     '459,-707,401',
+//     '465,-695,1988',
+//     '474,580,667',
+//     '496,-1584,1900',
+//     '497,-1838,-617',
+//     '527,-524,1933',
+//     '528,-643,409',
+//     '534,-1912,768',
+//     '544,-627,-890',
+//     '553,345,-567',
+//     '564,392,-477',
+//     '568,-2007,-577',
+//     '605,-1665,1952',
+//     '612,-1593,1893',
+//     '630,319,-379',
+//     '686,-3108,-505',
+//     '776,-3184,-501',
+//     '846,-3110,-434',
+//     '1135,-1161,1235',
+//     '1243,-1093,1063',
+//     '1660,-552,429',
+//     '1693,-557,386',
+//     '1735,-437,1738',
+//     '1749,-1800,1813',
+//     '1772,-405,1572',
+//     '1776,-675,371',
+//     '1779,-442,1789',
+//     '1780,-1548,337',
+//     '1786,-1538,337',
+//     '1847,-1591,415',
+//     '1889,-1729,1762',
+//     '1994,-1805,1792'];
+
+// let answerCompare = {};
+// for (item of answerList) {
+//     if (finalPointsList.includes(item)) {
+//         answerCompare[item] = 'yes'
+//     } else {
+//         answerCompare[item] = 'no';
+//     }
+// }
+// console.log(answerCompare);
 
 
